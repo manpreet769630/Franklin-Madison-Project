@@ -25,7 +25,10 @@ jobs:
 
       - name: Run Cypress Tests
         run: npm run test:node
-        
+        env:
+            CI: true
+
+
 
 #   # Stage Environment
 #   test-stage:
