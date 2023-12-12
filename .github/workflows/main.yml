@@ -8,47 +8,69 @@ jobs:
   # Node Environment
   test-node:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        containers: [1, 2] # Use 2 parallel instances
     steps:
-      - uses: actions/checkout@v3
-      - uses: cypress-io/github-action@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          start: npm run test:node
-          browser: chrome
-          spec: cypress/e2e/Functional/*.cy.js
-          config-file: cypress/config/cypress.node.config.js
-          record: true
-          env: CI=true
-          parallel: true
+          node-version: 14
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Cypress Tests
+        run: npm run test:node
+        
 
   # Stage Environment
   test-stage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: cypress-io/github-action@v4
-        with:
-          browser: chrome
-          spec: cypress/e2e/Functional/stage.cy.js
-          config-file: cypress/config/cypress.stage.config.js
-          record: true
-          env: CI=true
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Cypress Tests
+        run: npm run test:stage
+        env:
+          CI: true
+      
 
   # Production Environment
   test-prod:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: cypress-io/github-action@v4
-        with:
-          browser: chrome
-          spec: cypress/e2e/Functional/production.cy.js
-          config-file: cypress/config/cypress.prod.config.js
-          record: true
-          env: CI=true
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Cypress Tests
+        run: npm run test:prod
+        env:
+          CI: true
+       
 
   # VR Test (Prod)
   prod-vr-percy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: npx cypress run --headed --spec "cypress/e2e/VR_Test/*.cy.js" --env inputTestFile="./cypress/fixtures/urls.csv" version="prod" --browser chrome
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run VR Tests with Percy
+        run: npm run prod-vr-percy
+        env:
+          CI: true
+        
