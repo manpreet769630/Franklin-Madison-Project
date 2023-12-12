@@ -2,29 +2,23 @@ name: Franklin Madison
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   # Node Environment
   test-node:
     runs-on: ubuntu-latest
-    strategy:
-        fail-fast: false # https://github.com/cypress-io/github-action/issues/48
-        matrix:
-          containers: [1, 2] # Uses 2 parallel instances
     steps:
       - uses: actions/checkout@v3
       - uses: cypress-io/github-action@v4
         with:
-          # Starts web server for E2E tests - replace with your own server invocation
-          # https://docs.cypress.io/guides/continuous-integration/introduction#Boot-your-server
-          start: npm start  
+          start: npm run test:node
           browser: chrome
           spec: cypress/e2e/Functional/*.cy.js
           config-file: cypress/config/cypress.node.config.js
           record: true
           env: CI=true
-          parallel: true # Runs test in parallel using settings above
+          parallel: true
 
   # Stage Environment
   test-stage:
@@ -57,4 +51,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npx percy exec -- cypress run --headed --spec \"./cypress/e2e/VR_Test/*.cy.js\" --env inputTestFile=\"./cypress/fixtures/urls.csv\",version=\"prod\" --browser chrome
+      - run: npx cypress run --headed --spec "cypress/e2e/VR_Test/*.cy.js" --env inputTestFile="./cypress/fixtures/urls.csv" version="prod" --browser chrome
