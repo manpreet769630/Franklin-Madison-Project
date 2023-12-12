@@ -6,7 +6,7 @@
 	"scripts": {
 		"format": "prettier --write \"**/*.+(js|json|yml|md)\"",
 		"lint": "eslint ./ --ext .js",
-		"test:node": " cypress run --reporter mochawesome --headed split=true --spec \"cypress/e2e/Functional/*.cy.js\" --browser chrome --config-file cypress/config/cypress.node.config.js",
+		"test:node": " cypress run --reporter mochawesome --headed split=true --spec \"cypress/e2e/Functional/dev.cy.js\" --browser chrome --config-file cypress/config/cypress.node.config.js",
 		"test:stage": "npx cypress run --spec cypress/e2e/Functional/stage.cy.js --headed --config-file cypress/config/cypress.stage.config.js",
 		"test:prod": "npx cypress run --spec cypress/e2e/Functional/production.cy.js --headed --browser chrome --config-file cypress/config/cypress.prod.config.js",
 		"prod-vr-percy": "percy exec -- cypress run --headed --spec \"./cypress/e2e/VR_Test/*.cy.js\" --env inputTestFile=\"./cypress/fixtures/urls.csv\",version=\"prod\" --browser chrome",
