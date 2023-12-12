@@ -8,15 +8,23 @@ jobs:
   # Node Environment
   test-node:
     runs-on: ubuntu-latest
+    strategy:
+        fail-fast: false # https://github.com/cypress-io/github-action/issues/48
+        matrix:
+          containers: [1, 2] # Uses 2 parallel instances
     steps:
       - uses: actions/checkout@v3
-      - uses: cypress-io/github-action@v4
+      - uses: cypress-io/github-action@v6
         with:
+          # Starts web server for E2E tests - replace with your own server invocation
+          # https://docs.cypress.io/guides/continuous-integration/introduction#Boot-your-server
+          start: npm start  
           browser: chrome
           spec: cypress/e2e/Functional/*.cy.js
           config-file: cypress/config/cypress.node.config.js
           record: true
           env: CI=true
+          parallel: true # Runs test in parallel using settings above
 
   # Stage Environment
   test-stage:

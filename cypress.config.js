@@ -10,6 +10,7 @@ module.exports = defineConfig({
 	viewportHeight: 900,
 	viewportWidth: 900,
 	watchForFileChanges: false,
+	projectId: "y5i9gj",
 	eyesTimeout: 180000,
 	video: false,
 	defaultCommandTimeout: 10000,
