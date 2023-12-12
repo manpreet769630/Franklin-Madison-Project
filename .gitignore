@@ -1,0 +1,7 @@
+/node_modules
+/cypress/videos
+/.idea
+/cypress/parallel*
+/perf-reports/*
+multi-reporter-config.json
+runner-results

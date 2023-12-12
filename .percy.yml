@@ -1,0 +1,21 @@
+version: 2
+snapshot:
+  widths:
+    - 1440
+  minHeight: 1024
+  percyCSS: |
+    .video-embed-field-responsive-video iframe,
+    .openings .axe-job,
+    .slick-initialized .slick-slide,
+    .emp-details {
+      display: none;
+    }
+discovery:
+  allowed-hostnames: [fonts.googleapis.com,cdn2.hubspot.net,pbs.twimg.com,disqus.com]
+  networkIdleTimeout: 750
+static:
+  cleanUrls: false
+upload:
+  files: "**/*.{png,jpg,jpeg}"
+  ignore: ""
+  stripExtensions: false
