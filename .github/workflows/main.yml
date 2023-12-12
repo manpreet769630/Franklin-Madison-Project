@@ -1,0 +1,52 @@
+name: Franklin Madison
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  # Node Environment
+  test-node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cypress-io/github-action@v4
+        with:
+          browser: chrome
+          spec: cypress/e2e/Functional/*.cy.js
+          config-file: cypress/config/cypress.node.config.js
+          record: true
+          env: CI=true
+
+  # Stage Environment
+  test-stage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cypress-io/github-action@v4
+        with:
+          browser: chrome
+          spec: cypress/e2e/Functional/stage.cy.js
+          config-file: cypress/config/cypress.stage.config.js
+          record: true
+          env: CI=true
+
+  # Production Environment
+  test-prod:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cypress-io/github-action@v4
+        with:
+          browser: chrome
+          spec: cypress/e2e/Functional/production.cy.js
+          config-file: cypress/config/cypress.prod.config.js
+          record: true
+          env: CI=true
+
+  # VR Test (Prod)
+  prod-vr-percy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npx percy exec -- cypress run --headed --spec \"./cypress/e2e/VR_Test/*.cy.js\" --env inputTestFile=\"./cypress/fixtures/urls.csv\",version=\"prod\" --browser chrome
