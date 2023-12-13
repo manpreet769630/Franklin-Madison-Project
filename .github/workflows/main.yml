@@ -10,7 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        containers: [1, 2] # Use 2 parallel instances
+        # run copies of the current job in parallel
+        # containers: [1, 2, 3]
+        ci_node_total: [5]
+        ci_node_index: [1, 2, 3, 4, 5]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
