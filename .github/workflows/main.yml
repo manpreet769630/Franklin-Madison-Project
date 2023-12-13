@@ -28,20 +28,15 @@ jobs:
         env:
           CI: true
 
-      # After the test run completes, store videos and any screenshots
-      - name: Upload Screenshots
+       # you can use Cypress Dashboard to store the screenshots
+      # or store them on GitHub and download the zip file
+      # https://github.com/actions/upload-artifact
+      - name: Save screenshots 🖼
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-          if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
-
-      - name: Upload Videos
-        uses: actions/upload-artifact@v3
-        with:
-          name: cypress-videos
-          path: cypress/videos
-          if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
 
 
 #   # Stage Environment
