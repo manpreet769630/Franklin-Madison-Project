@@ -26,8 +26,22 @@ jobs:
       - name: Run Cypress Tests
         run: npm run test:node
         env:
-            CI: true
-       
+          CI: true
+
+      # After the test run completes, store videos and any screenshots
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
+
+      - name: Upload Videos
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
 
 
 #   # Stage Environment
