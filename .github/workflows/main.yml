@@ -35,11 +35,11 @@ jobs:
 
       - name: Run Cypress Tests
         run: |
-          if [ "$grepTags" == "node" ]; then
+          if [ "grepTags" == "node" ]; then
             npm run test:node
-          elif [ "$grepTags" == "stage" ]; then
+          elif [ "grepTags" == "stage" ]; then
             npm run test:stage
-          elif [ "$grepTags" == "prod" ]; then
+          elif [ "grepTags" == "prod" ]; then
             npm run test:prod
           else
             echo "Invalid grepTag value. Please set grepTag to 'node', 'stage', or 'prod'."
