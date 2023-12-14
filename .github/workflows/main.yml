@@ -13,7 +13,6 @@ jobs:
       CI: 1
       # avoid warnings like "tput: No value for $TERM and no -T specified"
       TERM: xterm
-      grepTags: node
     container: cypress/browsers:node16.5.0-chrome94-ff93
     strategy:
       matrix:
