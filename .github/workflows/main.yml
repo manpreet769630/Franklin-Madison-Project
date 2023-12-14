@@ -9,6 +9,8 @@ jobs:
   test-node:
     runs-on: ubuntu-latest
     env:
+      SPLIT: ${{ strategy.job-total }}
+      SPLIT_INDEX: ${{ strategy.job-index }}
       # prevents extra Cypress installation progress messages
       CI: 1
       # avoid warnings like "tput: No value for $TERM and no -T specified"
@@ -31,9 +33,6 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-
-      - name: Split Cypress Tests
-        run: npx cypress-split --total ${{ matrix.ci_node_total }} --n ${{ matrix.ci_node_index }}
 
       - name: Run Cypress Tests
         run: npm run test:stage

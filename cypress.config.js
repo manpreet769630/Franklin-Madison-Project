@@ -6,6 +6,7 @@ const cypressSplit = require('cypress-split')
 const { verifyDownloadTasks } = require('cy-verify-downloads')
 
 
+
 module.exports = defineConfig({
 
 	viewportHeight: 900,

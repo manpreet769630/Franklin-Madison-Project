@@ -6,9 +6,9 @@
 	"scripts": {
 		"format": "prettier --write \"**/*.+(js|json|yml|md)\"",
 		"lint": "eslint ./ --ext .js",
-		"test:node": "cypress run --headed --spec \"cypress/e2e/Functional/enrollment.cy.js\" --env grepTags=node,grepOmitFiltered=true --browser chrome --config-file cypress/config/cypress.node.config.js --reporter mochawesome",
-		"test:stage": " cypress run --headed --spec \"cypress/e2e/Functional/enrollment.cy.js\" --env grepTags=stage,grepOmitFiltered=true --browser chrome --config-file cypress/config/cypress.stage.config.js --reporter mochawesome",
-		"test:prod": "cypress run --headed --spec \"cypress/e2e/Functional/enrollment.cy.js\" --env grepTags=prod,grepOmitFiltered=true --browser chrome --config-file cypress/config/cypress.prod.config.js --reporter mochawesome",
+		"test:node": "cypress run --headed --env split=true --spec \"cypress/e2e/Functional/enrollment.cy.js\" --env grepTags=node,grepOmitFiltered=true --browser chrome --config-file cypress/config/cypress.node.config.js --reporter mochawesome",
+		"test:stage": " cypress run --headed --env split=true --spec \"cypress/e2e/Functional/enrollment.cy.js\" --env grepTags=stage,grepOmitFiltered=true --browser chrome --config-file cypress/config/cypress.stage.config.js --reporter mochawesome",
+		"test:prod": "cypress run --headed --env split=true --spec \"cypress/e2e/Functional/enrollment.cy.js\" --env grepTags=prod,grepOmitFiltered=true --browser chrome --config-file cypress/config/cypress.prod.config.js --reporter mochawesome",
 		"prod-vr-percy": "percy exec -- cypress run --headed --spec \"./cypress/e2e/VR_Test/*.cy.js\" --env inputTestFile=\"./cypress/fixtures/urls.csv\",version=\"prod\" --browser chrome --reporter mochawesome"
 	},
 	"author": "",
