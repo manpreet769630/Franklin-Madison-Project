@@ -78,3 +78,13 @@ if (!app.document.head.querySelector('[data-hide-command-log-request]')) {
 // cypress/support/index.js
 // load and register the grep feature using "require" function
 // https://github.com/cypress-io/cypress/tree/develop/npm/grep
+
+Cypress.on('test:after:run', (test, runnable) => {
+	if (Cypress.config('video')) {
+	  // assuming the videos are stored in "cypress/videos"
+	  const videoFile = `../videos/${Cypress.spec.name}.mp4`
+	  if (Cypress.Mochawesome) {
+		Cypress.Mochawesome.context.push(videoFile)
+	  }
+	}
+  })
