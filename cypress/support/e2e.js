@@ -17,7 +17,12 @@
 import './commands'
 import '@percy/cypress'
 require('cypress-plugin-tab')
-import 'cypress-mochawesome-reporter/register'
+import 'cypress-mochawesome-reporter/register';
+
+
+const registerCypressGrep = require('@cypress/grep')
+registerCypressGrep()
+
 
 // import { register } from 'cypress-mochawesome-reporter'
 
@@ -73,5 +78,3 @@ if (!app.document.head.querySelector('[data-hide-command-log-request]')) {
 // cypress/support/index.js
 // load and register the grep feature using "require" function
 // https://github.com/cypress-io/cypress/tree/develop/npm/grep
-const registerCypressGrep = require('@cypress/grep')
-registerCypressGrep()

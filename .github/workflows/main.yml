@@ -8,6 +8,12 @@ jobs:
   # Node Environment
   test-node:
     runs-on: ubuntu-latest
+    env:
+      # prevents extra Cypress installation progress messages
+      CI: 1
+      # avoid warnings like "tput: No value for $TERM and no -T specified"
+      TERM: xterm
+    container: cypress/browsers:node16.5.0-chrome94-ff93
     strategy:
       matrix:
         # run copies of the current job in parallel
@@ -27,7 +33,7 @@ jobs:
         run: npm install
 
       - name: Run Cypress Tests
-        run: npm run test:node
+        run: npm run test:stage
         env:
           CI: true
 

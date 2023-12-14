@@ -1,11 +1,10 @@
-const { defineConfig } = require('cypress');
+const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
-  baseUrl: 'https://franklinmadison.prod.acquia-sites.com',
-  e2e: {
-    
-  },
-  setupNodeEvents(on, config) {
-    // implement node event listeners here
-  },
-});
+	e2e: {
+		baseUrl: 'https://franklinmadison.prod.acquia-sites.com/',
+	},
+	setupNodeEvents(on, config) {
+		// implement node event listeners here
+	},
+})

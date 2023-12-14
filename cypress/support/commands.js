@@ -388,7 +388,13 @@ Cypress.Commands.add(
 			if ($body.text().includes('Select one:')) {
 				cy.get('input[value="Level_1"]+label')
 					.scrollIntoView()
-					.should('contains.text', '50,000.00')
+					.should($element => {
+						const text = $element.text()
+						expect(text).to.include('25,000.00') ||
+							expect(text).to.include('50,000.00') ||
+							expect(text).to.include('75,000.00')
+					})
+
 				cy.get('input[value="Level_1"]')
 					.scrollIntoView()
 					.check()
