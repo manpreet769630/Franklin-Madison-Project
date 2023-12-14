@@ -23,7 +23,7 @@ describe("Check the 'Enrollment' form submission for Dev/node environment", { ta
 
     it(
       `Verify 'Enrollment' form submission for the page: ${testUrl} in Dev Environment`,
-      { tags: '@node_enrollment_member_info' },
+      { tags: 'node' },
       () => {
         cy.visit(testUrl);
         cy.stageEnrollmentFormSubmissionViaUI(
@@ -63,7 +63,7 @@ describe(
 
     it(
       `Verify 'Enrollment' form submission for the page: ${testUrl} in Stage Environment`,
-      { tags: '@stage_enrollment_member_info' },
+      { tags: 'stage' },
       () => {
         cy.visit(testUrl);
         cy.stageEnrollmentFormSubmissionViaUI(
@@ -104,7 +104,7 @@ describe(
 
     it(
       `Verify 'Enrollment' form submission for the page: ${testUrl} in prod Environment`,
-      { tags: '@prod_enrollment_member_info' },
+      { tags: 'prod' },
       () => {
         cy.visit(testUrl);
         cy.prodEnrollmentFormSubmissionViaUI(

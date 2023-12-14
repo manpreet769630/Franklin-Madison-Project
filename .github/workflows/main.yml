@@ -13,6 +13,7 @@ jobs:
       CI: 1
       # avoid warnings like "tput: No value for $TERM and no -T specified"
       TERM: xterm
+      grepTags: node
     container: cypress/browsers:node16.5.0-chrome94-ff93
     strategy:
       matrix:
@@ -33,9 +34,20 @@ jobs:
         run: npm install
 
       - name: Run Cypress Tests
-        run: npm run test:stage
+        run: |
+          if [ "$grepTags" == "node" ]; then
+            npm run test:node
+          elif [ "$grepTags" == "stage" ]; then
+            npm run test:stage
+          elif [ "$grepTags" == "prod" ]; then
+            npm run test:prod
+          else
+            echo "Invalid grepTag value. Please set grepTag to 'node', 'stage', or 'prod'."
+            exit 1
+          fi
         env:
           CI: true
+
 
        # you can use Cypress Dashboard to store the screenshots
       # or store them on GitHub and download the zip file
