@@ -33,7 +33,7 @@ module.exports = defineConfig({
 	},
 	
 		async setupNodeEvents(on, config) {
-			require('cypress-terminal-report/src/installLogsPrinter')(on, logoptions);
+			require('cypress-terminal-report/src/installLogsPrinter')(on);
 	
 		require('cypress-mochawesome-reporter/plugin')(on);
 		on('task', verifyDownloadTasks);
