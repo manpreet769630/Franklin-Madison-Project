@@ -18,7 +18,7 @@ import './commands'
 import '@percy/cypress'
 require('cypress-plugin-tab')
 import 'cypress-mochawesome-reporter/register';
-require('cypress-terminal-report/src/installLogsCollector')();
+// require('cypress-terminal-report/src/installLogsCollector')();
 
 
 const registerCypressGrep = require('@cypress/grep')

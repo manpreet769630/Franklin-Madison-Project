@@ -4,16 +4,24 @@ const neatCSV = require('neat-csv')
 // https://github.com/bahmutov/cypress-split
 const cypressSplit = require('cypress-split')
 const { verifyDownloadTasks } = require('cy-verify-downloads')
-const logOptions={
-	printLogToConsole: 'always'
+// const logOptions={
+// 	printLogToConsole: 'always'
 
-}
-
+// }
 
 
 module.exports = defineConfig({
+	viewportHeight: 900,
+	viewportWidth: 900,
+	reporter: 'cypress-mochawesome-reporter',
+  reporterOptions: {
+    charts: true,
+    reportPageTitle: 'custom-title',
+    embeddedScreenshots: true,
+    inlineAssets: true,
+    saveAllAttempts: false,
+	},
 	e2e: {
-
 	viewportHeight: 900,
 	viewportWidth: 900,
 	watchForFileChanges: false,
@@ -27,17 +35,10 @@ module.exports = defineConfig({
 	responseTimeout: 120000,
 	trashAssetsBeforeRuns: false,
 	chromeWebSecurity: false,
-	reporter: 'cypress-mochawesome-reporter',
-  reporterOptions: {
-    charts: true,
-    reportPageTitle: 'custom-title',
-    embeddedScreenshots: true,
-    inlineAssets: true,
-    saveAllAttempts: false,
-	},
+	
 	
 		async setupNodeEvents(on, config) {
-			require('cypress-terminal-report/src/installLogsPrinter')(on, logOptions);
+			// require('cypress-terminal-report/src/installLogsPrinter')(on, logOptions);
 	
 		require('cypress-mochawesome-reporter/plugin')(on);
 		on('task', verifyDownloadTasks);

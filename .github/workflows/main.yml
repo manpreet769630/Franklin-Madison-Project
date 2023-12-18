@@ -1,16 +1,18 @@
-name: Franklin Madison
-
 on:
   push:
     branches: [main]
 
 jobs:
-    
-  test:
+  tests:
+    # use the reusable workflow to check out the code, install dependencies
+    # and run the Cypress tests
+    # https://github.com/bahmutov/cypress-workflows
     runs-on: ubuntu-latest
     env:
       # prevents extra Cypress installation progress messages
       CI: 1
+      SPLIT: ${{ strategy.job-total }}
+      SPLIT_INDEX: ${{ strategy.job-index }}
       # avoid warnings like "tput: No value for $TERM and no -T specified"
       TERM: xterm
     container: cypress/browsers:node16.5.0-chrome94-ff93
@@ -33,16 +35,4 @@ jobs:
         run: npm install
 
       - name: Run Cypress Tests
-        run: npm run test:stage
-        env:
-          CI: true
-
-      # you can use Cypress Dashboard to store the screenshots
-      # or store them on GitHub and download the zip file
-      # https://github.com/actions/upload-artifact
-      - name: Save screenshots 🖼
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
+        run:
