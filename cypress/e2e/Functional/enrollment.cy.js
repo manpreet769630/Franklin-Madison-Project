@@ -50,7 +50,7 @@ describe(
     '/insurance/eecu/mnl/add',
     '/insurance/truist/mnl/hap/524727013',
     '/insurance/abc-credit-union-chubb/chubb/add',
-    '/insurance/woodforest-national-bank/mnl/add',
+    '/insurance/abc-credit-union/mnl/add',
     '/insurance/sefcu/securian/add',
     '/insurance/vantage-credit-union/sirius/add',
     '/insurance/eecu/chubb/hap',

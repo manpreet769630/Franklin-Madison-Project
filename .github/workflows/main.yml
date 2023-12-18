@@ -1,102 +1,48 @@
-  name: Franklin Madison
+name: Franklin Madison
 
-  on:
-    push:
-      branches: [main]
+on:
+  push:
+    branches: [main]
 
-  jobs:
-    # Node Environment
-    test-node:
-      runs-on: ubuntu-latest
-      env:
-        # prevents extra Cypress installation progress messages
-        CI: 1
-        # avoid warnings like "tput: No value for $TERM and no -T specified"
-        TERM: xterm
-      container: cypress/browsers:node16.5.0-chrome94-ff93
-      strategy:
-        matrix:
-          # run copies of the current job in parallel
-          # containers: [1, 2, 3]
-          ci_node_total: [5]
-          ci_node_index: [1, 2, 3, 4, 5]
-      steps:
-        - name: Checkout Repository
-          uses: actions/checkout@v3
+jobs:
+    
+  test:
+    runs-on: ubuntu-latest
+    env:
+      # prevents extra Cypress installation progress messages
+      CI: 1
+      # avoid warnings like "tput: No value for $TERM and no -T specified"
+      TERM: xterm
+    container: cypress/browsers:node16.5.0-chrome94-ff93
+    strategy:
+      matrix:
+        # run copies of the current job in parallel
+        # containers: [1, 2, 3]
+        ci_node_total: [2]
+        ci_node_index: [1, 2]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-        - name: Set up Node.js
-          uses: actions/setup-node@v4
-          with:
-            node-version: 14
-          
-            
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 14
 
-        - name: Install Dependencies
-          run: npm install
+      - name: Install Dependencies
+        run: npm install
 
-        - name: Run Cypress Tests
-          run: npm run test:stage
-          
-          
-          env:
-            CI: true
+      - name: Run Cypress Tests
+        run: npm run test:stage
+        env:
+          CI: true
 
-
-        # you can use Cypress Dashboard to store the screenshots
-        # or store them on GitHub and download the zip file
-        # https://github.com/actions/upload-artifact
-        - name: Save screenshots 🖼
-          uses: actions/upload-artifact@v3
-          if: always()
-          with:
-            name: cypress-screenshots
-            path: cypress/screenshots
-
-
-  #   # Stage Environment
-  #   test-stage:
-  #     runs-on: ubuntu-latest
-  #     steps:
-  #       - name: Checkout Repository
-  #         uses: actions/checkout@v3
-
-  #       - name: Install Dependencies
-  #         run: npm install
-
-  #       - name: Run Cypress Tests
-  #         run: npm run test:stage
-  #         env:
-  #           CI: true
-        
-
-  #   # Production Environment
-  #   test-prod:
-  #     runs-on: ubuntu-latest
-  #     steps:
-  #       - name: Checkout Repository
-  #         uses: actions/checkout@v3
-
-  #       - name: Install Dependencies
-  #         run: npm install
-
-  #       - name: Run Cypress Tests
-  #         run: npm run test:prod
-  #         env:
-  #           CI: true
-        
-
-  #   # VR Test (Prod)
-  #   prod-vr-percy:
-  #     runs-on: ubuntu-latest
-  #     steps:
-  #       - name: Checkout Repository
-  #         uses: actions/checkout@v3
-
-  #       - name: Install Dependencies
-  #         run: npm install
-
-  #       - name: Run VR Tests with Percy
-  #         run: npm run prod-vr-percy
-  #         env:
-  #           CI: true
-          
+      # you can use Cypress Dashboard to store the screenshots
+      # or store them on GitHub and download the zip file
+      # https://github.com/actions/upload-artifact
+      - name: Save screenshots 🖼
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots

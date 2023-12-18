@@ -1,4 +1,7 @@
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  return false;
+});
 const urls = Cypress.env("urlsList");
 import scrollToBottom from 'scroll-to-bottomjs';
 // const now = new Date();

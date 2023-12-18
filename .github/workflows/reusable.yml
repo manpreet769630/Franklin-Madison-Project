@@ -1,8 +1,5 @@
 name: reusable
-on:
-  push:
-    branches: [main]
-
+on: [push]
 jobs:
   tests:
     # use the reusable workflow to check out the code, install dependencies
@@ -10,4 +7,8 @@ jobs:
     # https://github.com/bahmutov/cypress-workflows
     uses: bahmutov/cypress-workflows/.github/workflows/split.yml@v1
     with:
-      n: 4
+      n: 6
+      start: npm start
+      browser: chrome
+      store-artifacts: true
+      
