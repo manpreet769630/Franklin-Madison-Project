@@ -1,8 +1,11 @@
 name: reusable
-on: [push]
+
+on:
+  push
+
 jobs:
   tests:
-    # use the reusable workflow to check out the code, install dependencies
+    # Use the reusable workflow to check out the code, install dependencies,
     # and run the Cypress tests
     # https://github.com/bahmutov/cypress-workflows
     uses: bahmutov/cypress-workflows/.github/workflows/split.yml@v1
@@ -11,4 +14,22 @@ jobs:
       start: npm start
       browser: chrome
       store-artifacts: true
-      
+
+    steps:
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Cypress Tests
+        run: npm run test:stage
+        env:
+          CI: true
+
+    # You can use Cypress Dashboard to store the screenshots
+    # or store them on GitHub and download the zip file
+    # https://github.com/actions/upload-artifact
+      - name: Save screenshots 🖼
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
