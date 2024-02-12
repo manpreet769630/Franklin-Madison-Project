@@ -117,7 +117,7 @@ Cypress.Commands.add(
 			console.log(title)
 		})
 		//Issue with Percy#: 466545 - handling issue with existing animation and transition CSS rule in legacy code
-		cy.wait(3000)
+		// cy.wait(3000)
 		// cy.percySnapshot(`${title}-landing page`);
 		// cy.intercept('https://bam.nr-data.net/events/1/**').as('enrollmentPage');
 		cy.intercept('**/enrollment').as('enrollmentPage')
@@ -128,14 +128,15 @@ Cypress.Commands.add(
 			.select(enroll_state)
 			.invoke('val')
 			.should('eq', enroll_state)
+			// cy.get('@loadingSpinner', { timeout: 5000 }).should('not.exist');
 		cy.wait(5000)
 		// cy.get('#edit-submit').click();
 		// cy.focused().type('{tab}');
 		// cy.focused().click();
 		// cy.focused().tab();
 		//Click "Get Started" Button
-		cy.get('#edit-submit').click()
-		cy.wait(10000)
+		cy.get('input[data-drupal-selector="edit-submit"]').click()
+		// cy.wait(10000)
 		// From LNo:123 to 151 about Member/Customer Information form submission
 		// cy.contains('information', { timeout: 15000 })
 		//   .scrollIntoView()
@@ -144,10 +145,12 @@ Cypress.Commands.add(
 		cy.wait('@enrollmentPage')
 		// cy.percySnapshot(`${title}-Information page`);
 		cy.get('body').then($body => {
-			if ($body.text().includes('Access Code*')) {
-				cy.get('#AccessCode').type(enroll_accesscode).tab()
+			if ($body.text().includes('ACCESS CODE ')) {
+				cy.get('#edit-invitation-code', { timeout: 4000 }).type(enroll_accesscode).tab()
+				// cy.wait(4000)
 				cy.get('label[for*=last] + input').clear()
-				cy.get('label[for*=last] + input').type(enroll_lname).tab()
+				cy.get('label[for*=last] + input', { timeout: 7000 }).type(enroll_lname).tab()
+				// cy.wait(7000)
 				cy.get('label[for*=first] + input').clear()
 				cy.get('label[for*=first] + input').type(enroll_fname)
 				cy.get('label[for*=mi] + input').clear()
@@ -182,7 +185,7 @@ Cypress.Commands.add(
 		// From LNo:152 to 175 about Coverage Information form submission
 		cy.contains('Coverage', { timeout: 15000 }).should('be.visible')
 		//Issue with Percy#: 466545 - handling issue with existing animation and transition CSS rule in legacy code
-		cy.wait(5000)
+		cy.url().should('include', '/enrollment'); // Replace '/enrollment' with the current page's path
 		// cy.percySnapshot(`${title}-Coverage page`);
 		cy.get('body').then($body => {
 			if ($body.text().includes('Select one:')) {
@@ -208,23 +211,50 @@ Cypress.Commands.add(
 			}
 		})
 		cy.get('select[class*="form"]')
-			.first()
-			.select('Credit or Debit Card I provide')
-			.invoke('val')
-			.should('eq', 'CCRD')
-		cy.get('label[for*=number] + input').type(
-			generator.GenCC('VISA', 1).toString()
-		)
-		//Select Last month
-		cy.get('label[for*=month] +select')
-			.select('12')
-			.invoke('val')
-			.should('eq', '12')
-		//Select Current year
-		cy.get('label[for*=year] +select')
-			.select([1])
-			.invoke('val')
-			.should('eq', new Date().getFullYear().toString())
+  .first()
+  .then($select => {
+    const dynamicOptionText = $select.text().includes('Credit Union share draft account')
+      ? $select.text().match(/Credit Union share draft account/)[0]
+      : null;
+
+    if (dynamicOptionText) {
+      cy.wrap($select).select(dynamicOptionText);
+    } else {
+      cy.wrap($select).select('Credit or Debit Card I provide');
+    }
+
+    // Verify the selected value
+    cy.wrap($select).invoke('val').should('eq', dynamicOptionText || 'CCRD');
+  
+  
+	  
+		  // Continue with the rest of your code...
+		  cy.get('label[for*=number] + input').type(generator.GenCC('VISA', 1).toString());
+		  cy.get('label[for*=month] +select').select('12').invoke('val').should('eq', '12');
+		  cy.get('label[for*=year] +select').select([1]).invoke('val').should('eq', new Date().getFullYear().toString());
+		
+		});
+	
+
+
+		// cy.get('select[class*="form"]')
+		// 	.first()
+		// 	.select('Credit or Debit Card I provide')
+		// 	.invoke('val')
+		// 	.should('eq', 'CCRD')
+		// cy.get('label[for*=number] + input').type(
+		// 	generator.GenCC('VISA', 1).toString()
+		// )
+		// //Select Last month
+		// cy.get('label[for*=month] +select')
+		// 	.select('12')
+		// 	.invoke('val')
+		// 	.should('eq', '12')
+		// //Select Current year
+		// cy.get('label[for*=year] +select')
+		// 	.select([1])
+		// 	.invoke('val')
+		// 	.should('eq', new Date().getFullYear().toString())
 		cy.get('input[name*=il]').first().type(cov_email)
 		cy.get('input[size="40"]').last().type(cov_email)
 
@@ -243,18 +273,17 @@ Cypress.Commands.add(
 				cy.get('input[id*=edit-accept-agreement]').click()
 				cy.get('input[id*=edit-accept-terms]').click()
 			}
-		})
 
 		cy.intercept('**/thankyou').as('thankYouPage')
 		cy.get('input[type$="submit"]').click()
-		//Check Welcome Message
+		// Check Welcome Message
 		cy.contains(enroll_fname, { timeout: 15000 }).should('be.visible')
 		//Scroll down as the page is having lazy loading component in it
 		cy.window().then(cyWindow => scrollToBottom({ remoteWindow: cyWindow }))
 		//Issue with Percy#: 466545 - handling issue with existing animation and transition CSS rule in legacy code
 		// cy.wait(5000);
 		// cy.percySnapshot(`${title}-Welcome page`);
-		cy.wait(5000)
+		// cy.wait(5000)
 		cy.get('body').then($body => {
 			if (
 				$body.text().includes('Welcome!') &&
@@ -285,8 +314,10 @@ Cypress.Commands.add(
 					.trigger('change', { force: true })
 			}
 		})
-	}
-)
+	
+	
+	})
+})
 
 /**
  * Submit Sample Enrollment Form Submission via UI
@@ -447,6 +478,8 @@ Cypress.Commands.add(
 	}
 )
 
+
+
 /**
  * Check all the images in the page are not broken through request
  */
@@ -565,3 +598,5 @@ Cypress.Commands.add('isInViewport', locator => {
 		expect(rect.bottom).not.to.be.greaterThan(viewPort)
 	})
 })
+
+	

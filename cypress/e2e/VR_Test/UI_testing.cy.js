@@ -1,34 +1,16 @@
 
-Cypress.on('uncaught:exception', (err, runnable) => {
-  return false;
-});
 const urls = Cypress.env("urlsList");
 import scrollToBottom from 'scroll-to-bottomjs';
 // const now = new Date();
 describe("Visual regression testing in Franklin Madison", { tags: "@percy" }, () => {
   beforeEach(() => {
-		cy.viewport(1280, 1320)
+    cy.viewport(1280, 1320)      
 		
 	})
 
   urls.slice(0, 6).forEach((page) => {
     it(`Visual comparison of the page: ${page["url"]} page`, () => {
-      // cy.request(page["url"]).then((response) => {
-      //   // Assert that the status code is 200
-      //   expect(response.status).to.not.be.oneOf([
-      //     400, // Bad Request
-      //     401, // Unauthorized
-      //     403, // Forbidden
-      //     404, // Not Found
-      //     408, // Request Timeout
-      //     500, // Internal Server Error
-      //     502, // Bad Gateway
-      //     503, // Service Unavailable
-      //     504, // Gateway Timeout
-      //     505, // HTTP Version Not Supported
-      //   ]);
-      //   cy.document().should("have.property", "visibilityState", "visible");
-      // })
+      
       //Mark our window object to "know" when it gets reloaded
       cy.window().then((w) => (w.beforeReload = true));
 

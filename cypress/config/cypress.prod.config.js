@@ -1,6 +1,7 @@
 const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
+	
 	e2e: {
 		baseUrl: 'https://franklinmadison.prod.acquia-sites.com/',
 	},

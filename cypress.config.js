@@ -20,7 +20,7 @@ module.exports = defineConfig({
     embeddedScreenshots: true,
     inlineAssets: true,
     saveAllAttempts: false,
-	},
+  },
 	e2e: {
 	viewportHeight: 900,
 	viewportWidth: 900,
@@ -45,7 +45,6 @@ module.exports = defineConfig({
   
 
 				// require('cypress-mochawesome-reporter/plugin')(on)
-			on('task', verifyDownloadTasks)
 			// Get the input file name from the environment variable
 			const inputFileName = config.env.inputTestFile
 
@@ -67,13 +66,13 @@ module.exports = defineConfig({
 			const version = config.env.version || 'stage'
 
 			// Load environment variables from a JSON file
-			config.env = require(`./cypress/config/cypress.${version}.config.js`)
+			config.env = require(`./cypress/config/${version}.json`)
 
 			// Change the baseUrl to the one specified in the environment
 			config.baseUrl = config.env.baseUrl
 			config.env.urlsList = csv
 // Return the updated config object
-cypressSplit(on, config)
+// cypressSplit(on, config)
 return config;
 			
 		},
