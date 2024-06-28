@@ -1,0 +1,1 @@
+{"reports":[{"targets":[{"name":"slack","inputs":{"title":"Franklin Madison Functional Testing - Sanity Checks"},"extensions":[{"name":"mentions","inputs":{"users":[{}]}},{"name":"quick-chart-test-summary"}]}],"results":[{"type":"mocha","files":["mochawesome-report/*.json"]}]}]}

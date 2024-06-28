@@ -6,10 +6,11 @@
 	"scripts": {
 		"format": "prettier --write \"**/*.+(js|json|yml|md)\"",
 		"lint": "eslint ./ --ext .js",
-		"test:node": "cypress run --headed --env split=true --spec \"cypress/e2e/Functional/enrollment.cy.js\" --env grepTags=node,grepOmitFiltered=true --browser chrome --config-file cypress/config/cypress.node.config.js --reporter mochawesome",
-		"test:stage": " cypress run --headed --env split=true --spec \"cypress/e2e/Functional/enrollment.cy.js\" --env grepTags=stage,grepOmitFiltered=true --browser chrome --config-file cypress/config/cypress.stage.config.js --reporter mochawesome",
+		"test:node": "cypress run --headed --env split=true --spec \"cypress/e2e/Functional/enrollment.cy.js\" --env grepTags=stage,node,prod --env grepOmitFiltered=true --browser chrome --config-file cypress/config/cypress.node.config.js --reporter mochawesome",
+		"test:stage": "cypress run --headed --env split=true --spec \"cypress/e2e/Functional/enrollment.cy.js\" --env grepTags=stage,grepOmitFiltered=true --browser chrome --config-file cypress/config/cypress.stage.config.js --reporter mochawesome",
 		"test:prod": "cypress run --headed --env split=true --spec \"cypress/e2e/Functional/enrollment.cy.js\" --env grepTags=prod,grepOmitFiltered=true --browser chrome --config-file cypress/config/cypress.prod.config.js --reporter mochawesome",
-		"prod-vr-percy": "percy exec -- cypress run --headed --spec \"./cypress/e2e/VR_Test/*.cy.js\" --env inputTestFile=\"./cypress/fixtures/urls.csv\",version=\"prod\" --browser chrome"
+		"prod-vr-percy": "percy exec -- cypress run --headed --spec \"./cypress/e2e/VR_Test/*.cy.js\" --env inputTestFile=\"./cypress/fixtures/urls.csv\",version=\"prod\" --browser chrome",
+		"test:stage-BE": "cypress run --headed --env split=true --spec \"cypress/e2e/BE/BE_backend.cy.js\" --browser chrome --config-file cypress/config/cypress.stage.config.js --reporter mochawesome"
 	},
 	"author": "",
 	"license": "ISC",
@@ -36,11 +37,17 @@
 		"mochawesome-merge": "^4.2.2",
 		"mochawesome-report-generator": "^6.2.0",
 		"neat-csv": "^5.2.0",
+		"otplib": "^12.0.1",
 		"papaparse": "^5.4.1",
 		"path": "^0.12.7",
 		"percy": "^5.0.0",
 		"prettier": "^3.1.0",
 		"save": "^2.9.0",
-		"scroll-to-bottomjs": "^1.1.0"
+		"scroll-to-bottomjs": "^1.1.0",
+		"test-results-reporter": "^1.1.0"
+	},
+	"dependencies": {
+		"@slack/web-api": "^7.0.2",
+		"dotenv": "^16.4.5"
 	}
 }

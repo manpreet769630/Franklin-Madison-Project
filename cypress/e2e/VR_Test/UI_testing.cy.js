@@ -9,7 +9,7 @@ describe("Visual regression testing in Franklin Madison", { tags: "@percy" }, ()
 	})
 
   urls.slice(0, 6).forEach((page) => {
-    it(`Visual comparison of the page: ${page["url"]} page`, () => {
+    it(`Visual comparison of the page: ${page["urls"]} page`, () => {
       
       //Mark our window object to "know" when it gets reloaded
       cy.window().then((w) => (w.beforeReload = true));
@@ -18,7 +18,7 @@ describe("Visual regression testing in Franklin Madison", { tags: "@percy" }, ()
       cy.window().should("have.prop", "beforeReload", true);
         // Check if the "Skip" button is present
        //Visiting the page and added based on this reference: https://github.com/cypress-io/cypress/issues/19725#issuecomment-1014250390
-       cy.visit(page["url"]);
+       cy.visit(page["urls"]);
     
       
       //After reload the property should be gone
@@ -33,7 +33,7 @@ describe("Visual regression testing in Franklin Madison", { tags: "@percy" }, ()
        cy.scrollTo("top", { ensureScrollable: false }).wait(1000);
 
       //Enable visual regression
-      cy.percySnapshot(`${page.url} page`);
+      cy.percySnapshot(`${page.urls} page`);
     
     
   })

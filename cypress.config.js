@@ -37,43 +37,43 @@ module.exports = defineConfig({
 	chromeWebSecurity: false,
 	
 	
-		async setupNodeEvents(on, config) {
-			// require('cypress-terminal-report/src/installLogsPrinter')(on, logOptions);
-	
-		require('cypress-mochawesome-reporter/plugin')(on);
+	async setupNodeEvents(on, config) {
+		require('cypress-mochawesome-reporter/plugin')(on)
+		// implement node event listeners here
+		// require('cypress-mochawesome-reporter/plugin')(on)
 		on('task', verifyDownloadTasks);
-  
 
-				// require('cypress-mochawesome-reporter/plugin')(on)
-			// Get the input file name from the environment variable
-			const inputFileName = config.env.inputTestFile
 
-			// Log the loading of the file
-			console.log('Loading file:', inputFileName)
+		// require('cypress-mochawesome-reporter/plugin')(on)
+	on('task', verifyDownloadTasks)
+	// Get the input file name from the environment variable
+	const inputFileName = config.env.inputTestFile
 
-			// Read the content of the file as text
-			const text = fs.readFileSync(inputFileName, 'utf8')
+	// Log the loading of the file
+	console.log('Loading file:', inputFileName)
 
-			// Parse the CSV content
-			const csv = await neatCSV(text)
+	// Read the content of the file as text
+	const text = fs.readFileSync(inputFileName, 'utf8')
 
-			// Log the loaded URLs
-			console.log('Loaded URLs:')
-			console.log(csv)
+	// Parse the CSV content
+	const csv = await neatCSV(text)
 
-		require('@cypress/grep/src/plugin')(config);
-			// Get the Cypress environment version or default to 'stage'
-			const version = config.env.version || 'stage'
+	// Log the loaded URLs
+	console.log('Loaded URLs:')
+	console.log(csv)
 
-			// Load environment variables from a JSON file
-			config.env = require(`./cypress/config/${version}.json`)
+	// Get the Cypress environment version or default to 'stage'
+	const version = config.env.version || 'stage'
 
-			// Change the baseUrl to the one specified in the environment
-			config.baseUrl = config.env.baseUrl
-			config.env.urlsList = csv
+	// Load environment variables from a JSON file
+	config.env = require(`./cypress/config/${version}.json`)
+
+	// Change the baseUrl to the one specified in the environment
+	config.baseUrl = config.env.baseUrl
+	config.env.urlsList = csv
 // Return the updated config object
-// cypressSplit(on, config)
 return config;
+
 			
 		},
 			}

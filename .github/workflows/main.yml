@@ -6,7 +6,6 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
     env:
       # prevents extra Cypress installation progress messages
@@ -19,9 +18,8 @@ jobs:
     strategy:
       matrix:
         # run copies of the current job in parallel
-        # containers: [1, 2, 3]
         ci_node_total: [2]
-        ci_node_index: [1, 2]
+        ci_node_index: [0, 1]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -39,12 +37,32 @@ jobs:
         env:
           CI: true
 
-      # you can use Cypress Dashboard to store the screenshots
-      # or store them on GitHub and download the zip file
-      # https://github.com/actions/upload-artifact
       - name: Save screenshots 🖼
         uses: actions/upload-artifact@v3
         if: always()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
+          
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          payload: |
+            {
+              "channel": "#cypress-test",
+              "attachments": [
+                {
+                  "fallback": "Cypress Test Report",
+                  "color": "#36a64f",
+                  "pretext": "Cypress Test Report",
+                  "title": "View the Cypress Test Report",
+                  "title_link": "${{ steps.upload.outputs.artifact_url }}",
+                  "text": "The Cypress tests have completed. Click the link above to view the detailed report.",
+                  "footer": "GitHub Actions",
+                  "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
+                  "ts": ${{ steps.date.outputs.timestamp }}
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

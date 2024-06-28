@@ -9,7 +9,7 @@
     "enroll_address2": "TEST",
     "enroll_city": "Birmingham",
     "enroll_zip": "35242",
-    "cov_email": "test@gmail.com"
+    "cov_email": "automation@mailinator.com"
   },
   {
     "enroll_state": "AL",
@@ -21,7 +21,7 @@
     "enroll_address2": "TEST",
     "enroll_city": "Birmingham",
     "enroll_zip": "35242",
-    "cov_email": "test@gmail.com"
+    "cov_email": "automation@mailinator.com"
   },
   {
     "enroll_state": "AL",
@@ -33,7 +33,7 @@
     "enroll_address2": "TEST",
     "enroll_city": "Birmingham",
     "enroll_zip": "35242",
-    "cov_email": "test@gmail.com"
+    "cov_email": "automation@mailinator.com"
   },
   {
     "enroll_state": "AL",
@@ -45,7 +45,7 @@
     "enroll_address2": "TEST",
     "enroll_city": "Birmingham",
     "enroll_zip": "35242",
-    "cov_email": "test@gmail.com"
+    "cov_email": "automation@mailinator.com"
   },
   {
     "enroll_state": "NY",
@@ -57,7 +57,7 @@
     "enroll_address2": "TEST",
     "enroll_city": "Birmingham",
     "enroll_zip": "10001",
-    "cov_email": "test@gmail.com"
+    "cov_email": "automation@mailinator.com"
   },
   {
     "enroll_state": "MO",
@@ -69,7 +69,7 @@
     "enroll_address2": "TEST",
     "enroll_city": "Davie",
     "enroll_zip": "63001",
-    "cov_email": "test@gmail.com"
+    "cov_email": "automation@mailinator.com"
   },
   {
     "enroll_state": "AL",
@@ -81,7 +81,7 @@
     "enroll_address2": "TEST",
     "enroll_city": "Birmingham",
     "enroll_zip": "35242",
-    "cov_email": "test@gmail.com"
+    "cov_email": "automation@mailinator.com"
   },
   {
     "enroll_state": "TN",
@@ -93,7 +93,7 @@
     "enroll_address2": "TEST",
     "enroll_city": "Lewis",
     "enroll_zip": "37012",
-    "cov_email": "test@gmail.com"
+    "cov_email": "automation@mailinator.com"
   },
   {
     "enroll_state": "AL",
@@ -105,7 +105,7 @@
     "enroll_address2": "TEST",
     "enroll_city": "Birmingham",
     "enroll_zip": "35242",
-    "cov_email": "test@gmail.com"
+    "cov_email": "automation@mailinator.com"
   },
   {
     "enroll_state": "TN",
@@ -117,7 +117,7 @@
     "enroll_address2": "TEST",
     "enroll_city": "Hermes",
     "enroll_zip": "37012",
-    "cov_email": "test@gmail.com"
+    "cov_email": "automation@mailinator.com"
   },
   {
     "enroll_state": "OR",
@@ -129,6 +129,6 @@
     "enroll_address2": "TEST",
     "enroll_city": "Manpreet",
     "enroll_zip": "97229",
-    "cov_email": "test@gmail.com"
+    "cov_email": "automation@mailinator.com"
   }
 ]

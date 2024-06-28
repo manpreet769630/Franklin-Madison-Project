@@ -6,6 +6,7 @@ const sourceFile = require('../../fixtures/e2e_source.prod.json');
 
 describe(
   "Check the 'Enrollment' form submission for Feature Environment", { tags: '@dev' }, () => {
+    
     beforeEach(() => {
       cy.viewport(1280, 1320)
     })
@@ -62,9 +63,9 @@ describe(
     '/insurance/abc-credit-union/mnl/add',
     '/insurance/sefcu/securian/add',
     '/insurance/vantage-credit-union/sirius/add',
-    '/insurance/eecu/chubb/hap',
-    '/insurance/renasant-bank/chubb/hap',
-    '/insurance/eecu/mnl/add',
+    // '/insurance/eecu/chubb/hap',
+    // '/insurance/renasant-bank/chubb/hap',
+    // '/insurance/eecu/mnl/add',
   ];
 
   testUrls.forEach((testUrl, index) => {

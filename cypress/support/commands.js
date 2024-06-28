@@ -358,7 +358,7 @@ Cypress.Commands.add(
 		//Scroll down as the page is having lazy loading component in it
 		cy.window().then(cyWindow => scrollToBottom({ remoteWindow: cyWindow }))
 		//Issue with Percy#: 466545 - handling issue with existing animation and transition CSS rule in legacy code
-		cy.wait(3000)
+		// cy.wait(3000)
 		// cy.percySnapshot(`${title}-landing page`);
 		// cy.intercept('https://bam.nr-data.net/events/1/**').as('enrollmentPage');
 		cy.intercept('**/enrollment').as('enrollmentPage')
@@ -376,7 +376,7 @@ Cypress.Commands.add(
 		// cy.focused().tab();
 		//Click "Get Started" Button
 		cy.get('#edit-submit').click()
-		cy.wait(10000)
+		// cy.wait(10000)
 		// From LNo:123 to 151 about Member/Customer Information form submission
 		// cy.contains('information', { timeout: 15000 })
 		//   .scrollIntoView()
@@ -413,7 +413,7 @@ Cypress.Commands.add(
 		// From LNo:152 to 175 about Coverage Information form submission
 		cy.contains('Coverage', { timeout: 15000 }).should('be.visible')
 		//Issue with Percy#: 466545 - handling issue with existing animation and transition CSS rule in legacy code
-		cy.wait(5000)
+		// cy.wait(5000)
 		// cy.percySnapshot(`${title}-Coverage page`);
 		cy.get('body').then($body => {
 			if ($body.text().includes('Select one:')) {
@@ -597,6 +597,24 @@ Cypress.Commands.add('isInViewport', locator => {
 		expect(rect.top).not.to.be.greaterThan(viewPort)
 		expect(rect.bottom).not.to.be.greaterThan(viewPort)
 	})
+})
+
+Cypress.Commands.add('deletionContenttype', () => {
+	cy.get('.toolbar-icon-system-admin-content').click()
+	cy.get('table tbody td:nth-child(2)').each(($el, index, $list) => {
+		if ($el.text().includes('Test Functional Automation')) {
+			cy.get('table tbody td:nth-child(2)')
+				.eq(index)
+				.prev()
+				.find('[type="checkbox"]')
+				.check({ force: true })
+		}
+	})
+	cy.get('select#edit-action').select('Delete content', { force: true })
+	cy.get('#edit-submit').click({ force: true })
+	cy.get('#edit-submit').click()
+
+	cy.get('.messages--status').should('contain', 'Deleted')
 })
 
 	
