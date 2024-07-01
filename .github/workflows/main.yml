@@ -37,37 +37,16 @@ jobs:
         env:
           CI: true
 
-      - name: Get Current Timestamp
-        id: date
-        run: echo "::set-output name=timestamp::$(date +%s)"
-
       - name: Upload Test Artifacts
         id: upload
         uses: actions/upload-artifact@v3
         with:
           name: cypress-test-report
-          path: path/to/your/test/report
+          path: mochawesome-report/mochawesome.html
 
       - name: Send Slack notification
-        uses: slackapi/slack-github-action@v1.23.0
-        with:
-          payload: >
-            {
-              "channel": "#cypress-test",
-              "text": "Cypress Test Report",
-              "attachments": [
-                {
-                  "fallback": "Cypress Test Report",
-                  "color": "#36a64f",
-                  "pretext": "Cypress Test Report",
-                  "title": "View the Cypress Test Report",
-                  "title_link": "${{ steps.upload.outputs.artifact_url }}",
-                  "text": "The Cypress tests have completed. Click the link above to view the detailed report.",
-                  "footer": "GitHub Actions",
-                  "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
-                  "ts": "${{ steps.date.outputs.timestamp }}"
-                }
-              ]
-            }
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        
