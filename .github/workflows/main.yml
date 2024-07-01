@@ -32,14 +32,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: cypress-test-report
-        path: mochawesome-report/mochawesome.html
-
-    - name: Upload Cypress Videos
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: cypress-videos
-        path: cypress/videos
+        path: cypress/mochawesome-report/mochawesome.html
 
     - name: Upload Cypress Screenshots
       if: always()
@@ -48,12 +41,8 @@ jobs:
         name: cypress-screenshots
         path: cypress/screenshots
 
-    - name: Print Debug Log
-      if: failure()
-      run: cat /github/home/.npm/_logs/2024-07-01T07_18_09_066Z-debug.log
-
     - name: Send Slack notification on failure
-      if: failure()
+      if: always()
       run: |
         echo '{
           "reports": [
@@ -63,7 +52,7 @@ jobs:
                   "name": "slack",
                   "inputs": {
                     "url": "'"${{ secrets.SLACK_WEBHOOK_URL }}"'",
-                    "title": "MSF Functional Testing - Sanity Checks"
+                    "title": "Franklin Madison- Sanity Checks"
                   },
                   "extensions": [
                     {
@@ -86,65 +75,9 @@ jobs:
               "results": [
                 {
                   "type": "mocha",
-                  "files": ["mochawesome-report/*.json"]
+                  "files": ["cypress/mochawesome-report/mochawesome.html"]
                 }
               ]
             }
           ]
         }' > report-config.json
-
-    - name: Notify Slack
-      if: failure()
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const fs = require('fs');
-          const fetch = require('node-fetch');
-          
-          const config = JSON.parse(fs.readFileSync('report-config.json', 'utf8'));
-          const webhookUrl = config.reports[0].targets[0].inputs.url;
-          
-          const payload = {
-            text: config.reports[0].targets[0].inputs.title,
-            attachments: [
-              {
-                color: 'danger',
-                fields: [
-                  {
-                    title: "Repository",
-                    value: process.env.GITHUB_REPOSITORY,
-                    short: true
-                  },
-                  {
-                    title: "Branch",
-                    value: process.env.GITHUB_REF,
-                    short: true
-                  },
-                  {
-                    title: "Job",
-                    value: process.env.GITHUB_WORKFLOW,
-                    short: true
-                  },
-                  {
-                    title: "Commit",
-                    value: process.env.GITHUB_SHA,
-                    short: true
-                  }
-                ]
-              }
-            ]
-          };
-          
-          fetch(webhookUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-          }).then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-          }).catch(error => {
-            console.error('Error sending notification to Slack:', error);
-          });
