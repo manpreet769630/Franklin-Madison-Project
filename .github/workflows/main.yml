@@ -41,44 +41,30 @@ jobs:
         name: cypress-screenshots
         path: cypress/screenshots
 
-    - name: Send Slack notification on failure
+    - name: Send Slack notification
+      uses: slackapi/slack-github-action@v1.23.0
       if: always()
-      run: |
-        echo '{
-          "reports": [
-            {
-              "targets": [
-                {
-                  "name": "slack",
-                  "inputs": {
-                    "url": "'"${{ secrets.SLACK_WEBHOOK_URL }}"'",
-                    "title": "Franklin Madison- Sanity Checks",
-                    "channel": "#cypress-test"
-                  },
-                  "extensions": [
-                    {
-                      "name": "mentions",
-                      "inputs": {
-                        "users": [
-                          {
-                            "name": "Manpreet",
-                            "slack_uid": "U0664FMNYPL"
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "name": "quick-chart-test-summary"
-                    }
-                  ]
-                }
-              ],
-              "results": [
-                {
-                  "type": "mocha",
-                  "files": ["cypress/mochawesome-report/mochawesome.html"]
-                }
-              ]
-            }
-          ]
-        }' > report-config.json
+      with:
+        payload: >
+          {
+            "channel": "#cypress-test",
+            "attachments": [
+              {
+                "fallback": "Cypress Test Report",
+                "color": "#36a64f",
+                "pretext": "Cypress Test Report",
+                "title": "View the Cypress Test Report",
+                "title_link": "${{ steps.upload.outputs.artifact_url }}",
+                "text": "The Cypress tests have completed. Click the link above to view the detailed report.",
+                "footer": "GitHub Actions",
+                "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
+                "ts": "${{ steps.date.outputs.timestamp }}"
+              }
+            ]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    - name: Get Current Timestamp
+      id: date
+      run: echo "::set-output name=timestamp::$(date +%s)"
