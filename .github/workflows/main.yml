@@ -32,7 +32,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: cypress-test-report
-        path: cypress/mochawesome-report/mochawesome.html
+        path: mochawesome-report/mochawesome.html
 
     - name: Upload Cypress Screenshots
       if: always()
@@ -52,7 +52,8 @@ jobs:
                   "name": "slack",
                   "inputs": {
                     "url": "'"${{ secrets.SLACK_WEBHOOK_URL }}"'",
-                    "title": "Franklin Madison- Sanity Checks"
+                    "title": "Franklin Madison- Sanity Checks",
+                    "channel": "#cypress-test"
                   },
                   "extensions": [
                     {
@@ -60,8 +61,8 @@ jobs:
                       "inputs": {
                         "users": [
                           {
-                            "name": "SLACK_USER",
-                            "slack_uid": "SLACK_UID"
+                            "name": "Manpreet",
+                            "slack_uid": "U0664FMNYPL"
                           }
                         ]
                       }
