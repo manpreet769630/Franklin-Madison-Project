@@ -193,7 +193,7 @@ Cypress.Commands.add(
 					.scrollIntoView()
 					.should($element => {
 						const text = $element.text()
-						expect(text).to.include('50,000.00') ||
+						expect(text).to.include('20,000.00') ||
 							expect(text).to.include('100,000.00') ||
 							expect(text).to.include('150,000.00')
 					})
