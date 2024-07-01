@@ -45,13 +45,16 @@ jobs:
           name: cypress-screenshots
           path: cypress/screenshots
 
-      - name: Get Current Timestamp
-        id: date
-        run: echo "::set-output name=timestamp::$(date +%s)"
+      - name: Get Current Timestamp (using environment variable)
+        run: echo "::set-env name=TIMESTAMP::$(date +%s)"
 
       - name: Send Slack notification (using slackapi/slack-github-action)
-        uses: slackapi/slack-github-action@v1.23.0
+        uses: slackapi/slack-github-action@v1.26.0
         with:
-          channel: '#random'  # Replace with your actual Slack channel name
-          text: "**CI build completed for ${{ github.workflow }}**\nStatus: ${{ job.status }}\nBranch: ${{ github.ref }}\nCommit SHA: ${{ github.sha }}\nTimestamp: ${{ steps.date.outputs.timestamp }}"
+          channel-id: '#random'  # Replace with your actual Slack channel name
+          payload: |  # Define your custom message payload here
+            {
+              "text": "**CI build completed for ${{ github.workflow }}**\nStatus: ${{ job.status }}\nBranch: ${{ github.ref }}\nCommit SHA: ${{ github.sha }}\nTimestamp: $TIMESTAMP",
+              "blocks": [  # Add optional blocks for more detailed formatting if needed ]
+            }
 
