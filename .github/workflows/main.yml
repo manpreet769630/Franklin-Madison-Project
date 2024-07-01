@@ -52,6 +52,5 @@ jobs:
           channel-id: '#random'  # Replace with your actual Slack channel name
           payload: |  # Define your custom message payload here
             {
-              "text": "**CI build completed for ${{ github.workflow }}**\nStatus: ${{ job.status }}\nBranch: ${{ github.ref }}\nCommit SHA: ${{ github.sha }}\nTimestamp: ${{ env.TIMESTAMP }}",
-              "blocks": [  # Add optional blocks for more detailed formatting if needed ]
+              "text": "**CI build completed for ${{ github.workflow }}**\nStatus: ${{ job.status }}\nBranch: ${{ github.ref }}\nCommit SHA: ${{ github.sha }}",
             }
