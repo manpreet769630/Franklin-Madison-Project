@@ -10,6 +10,7 @@ jobs:
 
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  # Assuming you have a Slack webhook URL stored as a secret
+      TIMESTAMP: ${{ github.event.created_at }}  # Use event timestamp (consider environment file if needed)
 
     steps:
       - name: Checkout code
@@ -37,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: cypress-test-report
-          path: mochawesome-report/mochawesome.html
+          path: cypress/mochawesome-report/mochawesome.html
 
       - name: Upload Cypress Screenshots (always)
         uses: actions/upload-artifact@v3
@@ -45,16 +46,12 @@ jobs:
           name: cypress-screenshots
           path: cypress/screenshots
 
-      - name: Get Current Timestamp (using environment variable)
-        run: echo "::set-env name=TIMESTAMP::$(date +%s)"
-
       - name: Send Slack notification (using slackapi/slack-github-action)
         uses: slackapi/slack-github-action@v1.26.0
         with:
           channel-id: '#random'  # Replace with your actual Slack channel name
           payload: |  # Define your custom message payload here
             {
-              "text": "**CI build completed for ${{ github.workflow }}**\nStatus: ${{ job.status }}\nBranch: ${{ github.ref }}\nCommit SHA: ${{ github.sha }}\nTimestamp: $TIMESTAMP",
+              "text": "**CI build completed for ${{ github.workflow }}**\nStatus: ${{ job.status }}\nBranch: ${{ github.ref }}\nCommit SHA: ${{ github.sha }}\nTimestamp: ${{ env.TIMESTAMP }}",
               "blocks": [  # Add optional blocks for more detailed formatting if needed ]
             }
-
