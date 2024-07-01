@@ -54,6 +54,7 @@ jobs:
           payload: >
             {
               "channel": "#cypress-test",
+              "text": "Cypress Test Report",
               "attachments": [
                 {
                   "fallback": "Cypress Test Report",
