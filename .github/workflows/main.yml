@@ -1,73 +1,49 @@
 name: CI
-
-on: [push, pull_request]
-
+'on':
+  - push
+  - pull_request
 jobs:
   test:
     runs-on: ubuntu-latest
-
     env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
+      SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: npm install
+      - name: Install Cypress
+        run: npm install cypress
+      - name: Verify Cypress binary
+        run: npx cypress verify
+      - name: Run Cypress tests
+        run: 'npm run test:stage'
+      - name: Upload Test Artifacts
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-test-report
+          path: mochawesome-report/mochawesome.html
+      - name: Upload Cypress Screenshots
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          
+      - name: Get Current Timestamp
+        id: date
+        run: 'echo "::set-output name=timestamp::$(date +%s)"'
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Install Cypress
-      run: npm install cypress
-
-    - name: Verify Cypress binary
-      run: npx cypress verify
-
-    - name: Run Cypress tests
-      run: npm run test:stage
-
-    - name: Upload Test Artifacts
-      if: failure()
-      uses: actions/upload-artifact@v3
-      with:
-        name: cypress-test-report
-        path: mochawesome-report/mochawesome.html
-
-    - name: Upload Cypress Screenshots
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: cypress-screenshots
-        path: cypress/screenshots
-
-    - name: Get Current Timestamp
-      id: date
-      run: echo "::set-output name=timestamp::$(date +%s)"
-
-    - name: Send Slack notification
-      uses: slackapi/slack-github-action@v1.23.0
-      if: always()
-      with:
-        payload: >
-          {
-            "channel": "#random",
-            "attachments": [
-              {
-                "fallback": "Cypress Test Report",
-                "color": "#36a64f",
-                "pretext": "Cypress Test Report",
-                "title": "View the Cypress Test Report",
-                "title_link": "${{ steps.upload.outputs.artifact_url }}",
-                "text": "The Cypress tests have completed. Click the link above to view the detailed report.",
-                "footer": "GitHub Actions",
-                "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
-                "ts": "${{ steps.date.outputs.timestamp }}"
-              }
-            ]
-          }
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@v1.23.0
+        steps:
+          - uses: actions/checkout@v2
+          - name: Slack Notification
+            uses: slackapi/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
