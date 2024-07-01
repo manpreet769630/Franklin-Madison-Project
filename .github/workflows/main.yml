@@ -49,7 +49,6 @@ jobs:
                   "color": "#36a64f",
                   "pretext": "Cypress Test Report",
                   "title": "View the Cypress Test Report",
-                  "title_link": "${{ steps.upload.outputs.artifact_url }}",
                   "text": "The Cypress tests have completed. Click the link above to view the detailed report.",
                   "footer": "GitHub Actions",
                   "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
