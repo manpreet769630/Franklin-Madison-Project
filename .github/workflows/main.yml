@@ -1,49 +1,57 @@
 name: CI
-'on':
+
+on:
   - push
   - pull_request
+
 jobs:
   test:
     runs-on: ubuntu-latest
+
     env:
-      SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  # Assuming you have a Slack webhook URL stored as a secret
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+
       - name: Install dependencies
         run: npm install
+
       - name: Install Cypress
         run: npm install cypress
+
       - name: Verify Cypress binary
         run: npx cypress verify
+
       - name: Run Cypress tests
-        run: 'npm run test:stage'
-      - name: Upload Test Artifacts
-        if: failure()
+        run: npm run test:stage
+
+      - name: Upload Test Artifacts (if tests fail)
+        if: failure()  # Only upload artifacts if tests fail
         uses: actions/upload-artifact@v3
         with:
           name: cypress-test-report
           path: mochawesome-report/mochawesome.html
-      - name: Upload Cypress Screenshots
-        if: always()
+
+      - name: Upload Cypress Screenshots (always)
         uses: actions/upload-artifact@v3
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-          
+
       - name: Get Current Timestamp
         id: date
-        run: 'echo "::set-output name=timestamp::$(date +%s)"'
+        run: echo "::set-output name=timestamp::$(date +%s)"
 
-      - name: Send Slack notification
+      - name: Send Slack notification (using slackapi/slack-github-action)
         uses: slackapi/slack-github-action@v1.23.0
-        steps:
-          - uses: actions/checkout@v2
-          - name: Slack Notification
-            uses: slackapi/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
+        with:
+          channel: '#random'  # Replace with your actual Slack channel name
+          text: "**CI build completed for ${{ github.workflow }}**\nStatus: ${{ job.status }}\nBranch: ${{ github.ref }}\nCommit SHA: ${{ github.sha }}\nTimestamp: ${{ steps.date.outputs.timestamp }}"
+
