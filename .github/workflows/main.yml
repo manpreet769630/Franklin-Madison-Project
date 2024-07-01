@@ -6,6 +6,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -41,13 +44,17 @@ jobs:
         name: cypress-screenshots
         path: cypress/screenshots
 
+    - name: Get Current Timestamp
+      id: date
+      run: echo "::set-output name=timestamp::$(date +%s)"
+
     - name: Send Slack notification
       uses: slackapi/slack-github-action@v1.23.0
       if: always()
       with:
         payload: >
           {
-            "channel": "#cypress-test",
+            "channel": "#random",
             "attachments": [
               {
                 "fallback": "Cypress Test Report",
@@ -64,7 +71,3 @@ jobs:
           }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-    - name: Get Current Timestamp
-      id: date
-      run: echo "::set-output name=timestamp::$(date +%s)"
