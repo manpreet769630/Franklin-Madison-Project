@@ -54,7 +54,7 @@ jobs:
           channel-id: '#random'
           text: 'Automated Tests run on prod. Find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
           fields: all
-          mention: 'Manpreet'
+          Name: 'Manpreet'
           if_mention: failure
           status: ${{ job.status }}
         env:
