@@ -1,52 +1,63 @@
 name: CI
-'on':
-  push: null
-  pull_request: null
+
+on:
+  push:
+  pull_request:
+
 jobs:
   test:
     runs-on: ubuntu-latest
+
     env:
-      SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
-      TIMESTAMP: '${{ github.event.created_at }}'
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      TIMESTAMP: ${{ github.event.created_at }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+
       - name: Install dependencies
         run: npm install
+
       - name: Install Cypress
         run: npm install cypress
+
       - name: Verify Cypress binary
         run: npx cypress verify
+
       - name: Run Cypress tests
-        run: 'npm run test:stage'
+        run: npm run test:stage
+
       - name: Upload Test Artifacts (if tests fail)
         if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: cypress-test-report
           path: cypress/mochawesome-report/mochawesome.html
+
       - name: Upload Cypress Screenshots
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-      - name: Send Slack notification (using slackapi/slack-github-action)
+
+      - name: Send Slack notification
         uses: 8398a7/action-slack@v3
         with:
           channel-id: '#random'
-          text: >-
-            Automated Tests run on prod. Find details at: https://github.com/${{
-            github.repository }}/actions/runs/${{ github.run_id }}
-          mention: Kashif
+          text: 'Automated Tests run on prod. Find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+          mention: Manpreet
           if_mention: failure
-          status: '${{ job.status }}'
+          status: ${{ job.status }}
         env:
-          SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
       - name: Save Cypress reports as artifacts
         if: always()
         uses: actions/upload-artifact@v3
