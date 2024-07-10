@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       TIMESTAMP: ${{ github.event.created_at }}
 
     steps:
@@ -51,13 +51,13 @@ jobs:
         if: always()
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_CHANNEL: random
-          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-          SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'Post Content :rocket:'
+          SLACK_CHANNEL: 'random'
+          SLACK_COLOR: '${{ job.status }}' # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: 'https://github.com/rtCamp.png?size=48'
+          SLACK_MESSAGE: 'Find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}, Post Content :rocket:'
           SLACK_TITLE: Post Title
-          SLACK_USERNAME: manpreet-testing
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: 'manpreet-testing'
+          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
 
       - name: Upload Test Artifacts (if tests fail)
         if: failure()
