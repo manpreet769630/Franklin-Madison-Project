@@ -59,7 +59,7 @@ jobs:
           SLACK_USERNAME: 'manpreet-testing'
           SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
           SLACK_MSG_AUTHOR: '$GITHUB_ACTOR'
-          SLACK_FILE_UPLOAD: 'mochawesome-report/mochawesome.html'
+          SLACK_STATUS: 'status: ${{ job.status }}'
 
       - name: Upload Test Artifacts (if tests fail)
         if: failure()
