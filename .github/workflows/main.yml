@@ -14,12 +14,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '18'
 
       - name: Install dependencies
         run: npm install
@@ -54,12 +54,10 @@ jobs:
           SLACK_CHANNEL: 'random'
           SLACK_COLOR: '${{ job.status }}' # or a specific color like 'good' or '#ff00ff'
           SLACK_ICON: 'https://github.com/rtCamp.png?size=48'
-          SLACK_MESSAGE: 'Find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} :rocket:'
+          SLACK_MESSAGE: 'status: ${{ job.status }} Please find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} :rocket:'
           SLACK_TITLE: Post Title
           SLACK_USERNAME: 'manpreet-testing'
-          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
-          SLACK_MSG_AUTHOR: '$GITHUB_ACTOR'
-          SLACK_STATUS: 'status: ${{ job.status }}'
+          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}' 
 
       - name: Upload Test Artifacts (if tests fail)
         if: failure()
