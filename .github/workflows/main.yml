@@ -53,7 +53,8 @@ jobs:
         with:
           channel-id: '#random'
           text: 'Automated Tests run on prod. Find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-          mention: 'Manpreet'
+          fields: ${{ github.repository }},"Automated Tests ${{ job.status }}",${{ github.sha }},${{ github.actor }},${{ github.action }},${{ github.event_name }},ref,workflow,job,took,pullRequest # selectable 
+          author: 'Manpreet'
           if_mention: failure
           status: ${{ job.status }}
         env:
