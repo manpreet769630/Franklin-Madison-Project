@@ -1,58 +1,55 @@
 name: CI
-
-on:
-  push:
-  pull_request:
-
+'on':
+  push: null
+  pull_request: null
 jobs:
   test:
     runs-on: ubuntu-latest
-
     env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  # Assuming you have a Slack webhook URL stored as a secret
-      TIMESTAMP: ${{ github.event.created_at }}  # Use event timestamp (consider environment file if needed)
-
+      SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
+      TIMESTAMP: '${{ github.event.created_at }}'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-
       - name: Install dependencies
         run: npm install
-
       - name: Install Cypress
         run: npm install cypress
-
       - name: Verify Cypress binary
         run: npx cypress verify
-
       - name: Run Cypress tests
-        run: npm run test:stage
-
+        run: 'npm run test:stage'
       - name: Upload Test Artifacts (if tests fail)
-        if: failure()  # Only upload artifacts if tests fail
+        if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: cypress-test-report
           path: cypress/mochawesome-report/mochawesome.html
-
-      - name: Upload Cypress Screenshots (always)
+      - name: Upload Cypress Screenshots
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-
       - name: Send Slack notification (using slackapi/slack-github-action)
-        uses: slackapi/slack-github-action@v1.26.0
+        uses: 8398a7/action-slack@v3
         with:
-          channel-id: '#random'  # Replace with your actual Slack channel name
-          payload: |  # Define your custom message payload here
-            {
-              "text": "**CI build completed for ${{ github.workflow }}**\nStatus: ${{ job.status }}\nBranch: ${{ github.ref }}\nCommit SHA: ${{ github.sha }}"
-            }
+          channel-id: '#random'
+          text: >-
+            Automated Tests run on prod. Find details at: https://github.com/${{
+            github.repository }}/actions/runs/${{ github.run_id }}
+          mention: Kashif
+          if_mention: failure
+          status: '${{ job.status }}'
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
+      - name: Save Cypress reports as artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-reports
+          path: cypress/reports
