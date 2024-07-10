@@ -27,8 +27,25 @@ jobs:
       - name: Install Cypress
         run: npm install cypress
 
-      - name: Verify Cypress binary
-        run: npx cypress verify
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Cache Cypress binary
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('**/cypress.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
+
+      - name: Clear reports directory
+        run: npm run clean-reports
 
       - name: Run Cypress tests
         run: npm run test:stage
@@ -60,7 +77,7 @@ jobs:
         with:
           channel-id: '#random'
           text: 'Automated Tests run on prod. Find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-          mention: Manpreet
+          mention: 'Manpreet'
           if_mention: failure
           status: ${{ job.status }}
         env:
