@@ -49,15 +49,15 @@ jobs:
 
       - name: Send Slack notification
         if: always()
-        uses: 8398a7/action-slack@v3
-        with:
-          channel-id: '#random'
-          text: 'Automated Tests run on prod. Find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-          fields: all
-          Name: 'Manpreet'
-          if_mention: failure
-          status: ${{ job.status }}
+        uses: rtCamp/action-slack-notify@v2
         env:
+          SLACK_CHANNEL: random
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: 'Find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}, Post Content :rocket:'
+          SLACK_TITLE: Post Title
+          SLACK_USERNAME: Manpreet
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Upload Test Artifacts (if tests fail)
@@ -82,3 +82,17 @@ jobs:
           path: cypress/reports
 
       
+
+
+      # - name: Send Slack notification
+      #   if: always()
+      #   uses: 8398a7/action-slack@v3
+      #   with:
+      #     channel-id: '#random'
+      #     text: 'Automated Tests run on prod. Find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+      #     fields: all
+      #     Name: 'Manpreet'
+      #     if_mention: failure
+      #     status: ${{ job.status }}
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
