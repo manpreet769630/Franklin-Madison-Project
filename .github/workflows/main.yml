@@ -44,11 +44,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-
 
-      - name: Clear reports directory
-        run: npm run clean-reports
-
       - name: Run Cypress tests
         run: npm run test:stage
+
+      - name: Send Slack notification
+        if: always()
+        uses: 8398a7/action-slack@v3
+        with:
+          channel-id: '#random'
+          text: 'Automated Tests run on prod. Find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+          mention: 'Manpreet'
+          if_mention: failure
+          status: ${{ job.status }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Upload Test Artifacts (if tests fail)
         if: failure()
@@ -71,14 +80,4 @@ jobs:
           name: cypress-reports
           path: cypress/reports
 
-      - name: Send Slack notification
-        if: always()
-        uses: 8398a7/action-slack@v3
-        with:
-          channel-id: '#random'
-          text: 'Automated Tests run on prod. Find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-          mention: 'Manpreet'
-          if_mention: failure
-          status: ${{ job.status }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      
