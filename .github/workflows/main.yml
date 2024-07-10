@@ -47,20 +47,20 @@ jobs:
           name: cypress-screenshots
           path: cypress/screenshots
 
-      - name: Send Slack notification
-        uses: 8398a7/action-slack@v3
-        with:
-          channel-id: '#random'
-          text: 'Automated Tests run on prod. Find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-          mention: Manpreet
-          if_mention: failure
-          status: ${{ job.status }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
       - name: Save Cypress reports as artifacts
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: cypress-reports
           path: cypress/reports
+
+      - name: Send Slack notification
+        uses: 8398a7/action-slack@v3
+        with:
+          channel-id: '#random'
+          text: 'Automated Tests run on prod. Find details at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+          attachments: '[{"pretext": "Test Execution Alert", "title": "Test Report", "title_link": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}", "text": "Automated tests have been executed.", "color": "#36a64f", "fields": [{"title": "Status", "value": "${{ job.status }}", "short": true}], "footer": "GitHub Actions", "ts": "${{ github.run_id }}"}]'
+          mention: Manpreet
+          if_mention: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
