@@ -5,9 +5,9 @@
     "passes": 1,
     "pending": 0,
     "failures": 0,
-    "start": "2024-07-01T06:46:34.167Z",
-    "end": "2024-07-01T06:47:14.446Z",
-    "duration": 40279,
+    "start": "2024-07-10T18:20:50.834Z",
+    "end": "2024-07-10T18:21:37.965Z",
+    "duration": 47131,
     "testsRegistered": 1,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "a9f42e66-9eb4-45e3-b877-2a11948d3139",
+      "uuid": "06d5068b-beac-4852-a9d7-2e06c58189ea",
       "title": "",
       "fullFile": "cypress/e2e/Functional/enrollment.cy.js",
       "file": "cypress/e2e/Functional/enrollment.cy.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "8a542ee7-91b9-4d5b-8419-2e1efcebcd96",
+          "uuid": "6a257ed5-4eb3-4864-be20-25baa2d8765d",
           "title": "Check the 'Enrollment' form submission for Stage Environment",
           "fullFile": "",
           "file": "",
@@ -38,7 +38,7 @@
               "title": "Verify 'Enrollment' form submission for the page: /insurance/abc-credit-union/mnl/add in Stage Environment",
               "fullTitle": "Check the 'Enrollment' form submission for Stage Environment Verify 'Enrollment' form submission for the page: /insurance/abc-credit-union/mnl/add in Stage Environment",
               "timedOut": null,
-              "duration": 40251,
+              "duration": 47093,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -47,20 +47,20 @@
               "context": null,
               "code": "// cy.visit(testUrl);\ncy.stageEnrollmentFormSubmissionViaUI(testUrl, page.enroll_state, page.enroll_accesscode, page.enroll_lname, page.enroll_fname, page.enroll_mi, page.enroll_address1, page.enroll_address2, page.enroll_city, page.enroll_zip, page.cov_email);",
               "err": {},
-              "uuid": "b88cfaad-d598-4a86-b30c-3a101e66bcc1",
-              "parentUUID": "8a542ee7-91b9-4d5b-8419-2e1efcebcd96",
+              "uuid": "55d56a80-93e5-4ee2-8bf6-eb46fddc69ec",
+              "parentUUID": "6a257ed5-4eb3-4864-be20-25baa2d8765d",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "b88cfaad-d598-4a86-b30c-3a101e66bcc1"
+            "55d56a80-93e5-4ee2-8bf6-eb46fddc69ec"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 40251,
+          "duration": 47093,
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000

@@ -57,10 +57,10 @@ describe(
     })
   const testUrls = [
     // '/insurance/langley-federal-credit-union/chubb/rcp/532051764',
-    '/insurance/abc-credit-union/mnl/add',
+    // '/insurance/abc-credit-union/mnl/add',
     // '/insurance/truist/mnl/hap/524727013',
     // '/insurance/abc-credit-union-chubb/chubb/add',
-    // '/insurance/abc-credit-union/mnl/add',
+    '/insurance/abc-credit-union/mnl/add',
     // '/insurance/sefcu/securian/add',
     // '/insurance/vantage-credit-union/sirius/add',
     // '/insurance/eecu/chubb/hap',
